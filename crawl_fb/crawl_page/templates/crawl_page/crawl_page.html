@@ -1,0 +1,64 @@
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crawl Page Facebook</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+
+{% block content %}
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Tourdejob</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/crawl_group">Crawl Group</a></li>
+                <li><a href="/crawl_page">Crawl Page</a></li>
+            </ul>
+          </div>
+        </nav>
+        <div class="container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <label for="token">Token here</label>
+                            <input type="text" class="form-control" id="token" name="token" value={{ token }}>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="page_name" name="page_name" value="{{ q }}" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {% if data %}
+                <h2>Result</h2>
+                {% for d in data %}
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="{{ d.link }}" target="_blank">Name: {{ d.name }}</a></li>
+                        <li class="list-group-item">Number of like: {{ d.fan_count }}</li>
+                        <li class="list-group-item">Rating: {{ d.rating_count }}</li>
+                        <li class="list-group-item">Bio: {{ d.bio }} </li>
+                        <li class="list-group-item">Category: {{ d.category }}</li>
+                        <li class="list-group-item">Phone: {{ d.phone }}</li>
+                        <li class="list-group-item">ID: {{ d.id }}</li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </body>
+{% endblock %}
